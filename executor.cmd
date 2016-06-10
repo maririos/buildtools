@@ -1,5 +1,5 @@
 @if "%_echo%" neq "on" echo off
-setlocal
+setlocal EnableDelayedExpansion
 
 if not defined VisualStudioVersion (
     if defined VS140COMNTOOLS (
@@ -21,13 +21,13 @@ if not defined VisualStudioVersion (
 :: Restore the Tools directory
 echo Running init-tools.cmd
 call %~dp0init-tools.cmd
-if NOT [%ERRORLEVEL%]==[0] (
+if [%ERRORLEVEL%]==[0] (
   set _toolRuntime=%~dp0Tools
-  set _dotnet=%_toolRuntime%\dotnetcli\dotnet.exe
+  set _dotnet=!_toolRuntime!\dotnetcli\dotnet.exe
 
-  echo Running: %_dotnet% %_toolRuntime%\executor.exe %*
-  call %_dotnet% %_toolRuntime%\executor.exe %*
-  if NOT [%ERRORLEVEL%]==[0] (
+  echo Running: !_dotnet! !_toolRuntime!\executor.exe %*
+  call !_dotnet! !_toolRuntime!\executor.exe %*
+  if NOT [!ERRORLEVEL!]==[0] (
     exit /b 1
   )
 )
