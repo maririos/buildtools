@@ -2,19 +2,13 @@
 setlocal
 
 if not defined VisualStudioVersion (
-    if defined VS140COMNTOOLS (
-        call "%VS140COMNTOOLS%\VsDevCmd.bat"
-        goto :Run
-    )
-
-    if defined VS120COMNTOOLS (
-        call "%VS120COMNTOOLS%\VsDevCmd.bat"
-        goto :Run
-    )
-
-    echo Error: Visual Studio 2013 or 2015 required.
-    echo        Please see https://github.com/dotnet/corefx/blob/master/Documentation/building/windows-instructions.md for build instructions.
-    exit /b 1
+  if defined VS140COMNTOOLS (
+    call "%VS140COMNTOOLS%\VsDevCmd.bat"
+    goto :Run
+  )
+  echo Error: Visual Studio 2015 required.
+  echo        Please see https://github.com/dotnet/corefx/blob/master/Documentation/building/windows-instructions.md for build instructions.
+  exit /b 1
 )
 
 :Run
