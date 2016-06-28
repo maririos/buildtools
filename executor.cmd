@@ -1,5 +1,5 @@
 @if "%_echo%" neq "on" echo off
-setlocal EnableDelayedExpansion
+setlocal
 
 if not defined VisualStudioVersion (
     if defined VS140COMNTOOLS (
@@ -13,22 +13,24 @@ if not defined VisualStudioVersion (
     )
 
     echo Error: Visual Studio 2013 or 2015 required.
-    echo        Please see https://github.com/dotnet/corefx/blob/master/Documentation/developer-guide.md for build instructions.
+    echo        Please see https://github.com/dotnet/corefx/blob/master/Documentation/building/windows-instructions.md for build instructions.
     exit /b 1
 )
 
 :Run
 :: Restore the Tools directory
-echo Running init-tools.cmd
 call %~dp0init-tools.cmd
-if [%ERRORLEVEL%]==[0] (
-  set _toolRuntime=%~dp0Tools
-  set _dotnet=!_toolRuntime!\dotnetcli\dotnet.exe
-
-  echo Running: !_dotnet! !_toolRuntime!\executor.exe %*
-  call !_dotnet! !_toolRuntime!\executor.exe %*
-  if NOT [!ERRORLEVEL!]==[0] (
-    exit /b 1
-  )
+if NOT [%ERRORLEVEL%]==[0] (
+  exit /b 1
 )
+
+set _toolRuntime=%~dp0Tools
+set _dotnet=%_toolRuntime%\dotnetcli\dotnet.exe
+
+echo Running: %_dotnet% %_toolRuntime%\executor.exe %*
+call %_dotnet% %_toolRuntime%\executor.exe %*
+if NOT [%ERRORLEVEL%]==[0] (
+  exit /b 1
+)
+
 exit /b 0
