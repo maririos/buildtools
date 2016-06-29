@@ -1,2 +1,2 @@
-@call executor.cmd sync -p %*
+@call run.cmd sync -p %*
 @exit /b %ERRORLEVEL%
